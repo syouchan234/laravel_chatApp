@@ -4,6 +4,9 @@ use App\Http\Controllers\ToDoController;
 use App\Http\Controllers\ToDoDetailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +31,10 @@ use Illuminate\Support\Facades\Route;
 //記述されている関数ごとにURLが発行される。
 Route::resource('toDos' , ToDoController::class);
 Route::resource('toDoDetails' , ToDoDetailController::class);
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
