@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ToDo\StoreRequest;
 use App\Http\Requests\ToDo\UpdateRequest;
 use App\Models\ToDo;
+// use App\Models\ToDoDetail;
 use Illuminate\Http\Request;
 
 class ToDoController extends Controller
@@ -15,7 +16,7 @@ class ToDoController extends Controller
     public function index()
     {
         //ToDoを取得する処理
-        $toDoList = ToDo::get();
+        $toDoList = ToDo::with('toDoDetails')->get();//詳細情報も引っ張れる。
         //取得したToDoを返す
         return $toDoList;
     }

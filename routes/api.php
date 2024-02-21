@@ -4,17 +4,8 @@ use App\Http\Controllers\ToDoController;
 use App\Http\Controllers\ToDoDetailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,5 +17,14 @@ use Illuminate\Support\Facades\Route;
 // Route::get('toDos' , [ToDoController::class , 'index']);
 
 //記述されている関数ごとにURLが発行される。
-Route::resource('toDos' , ToDoController::class);
-Route::resource('toDoDetails' , ToDoDetailController::class);
+
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/createUser', [AuthController::class, 'createUser']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('toDos' , ToDoController::class);
+    Route::resource('toDoDetails' , ToDoDetailController::class);
+});
