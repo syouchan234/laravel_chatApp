@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         // サンプルアカウントデータの作成
         Account::create([
             'name' => 'testuser',
+            'account_name' => 'testerMAN',
             'email' => 'test@examle.com',
             'password' => Hash::make('password'),
         ]);

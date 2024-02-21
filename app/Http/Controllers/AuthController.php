@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+use App\Models\Account;
 
 class AuthController extends Controller
 {
@@ -31,5 +34,27 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'ログアウトしました。'], 200);
+    }
+
+    public function createUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'account_name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $account = Account::create([
+            'name' => $request->name,
+            'account_name' => $request->account_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // $token = Auth::user()->createToken('AccessToken')->plainTextToken;
+
+        // return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201);
+        return response()->json(['message' => 'アカウントを作成しました'], 201);
     }
 }
