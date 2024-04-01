@@ -52,9 +52,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // $token = Auth::user()->createToken('AccessToken')->plainTextToken;
+        $token = Auth::user()->createToken('AccessToken')->plainTextToken;
 
-        // return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201);
-        return response()->json(['message' => 'アカウントを作成しました'], 201);
+        return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201);
+        // return response()->json(['message' => 'アカウントを作成しました'], 201);
     }
 }

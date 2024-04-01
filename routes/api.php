@@ -18,13 +18,17 @@ use App\Http\Controllers\AuthController;
 
 //記述されている関数ごとにURLが発行される。
 
-
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/createUser', [AuthController::class, 'createUser']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/user', [AuthController::class, 'user']);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::resource('toDos' , ToDoController::class);
-    Route::resource('toDoDetails' , ToDoDetailController::class);
-});
+// Route::group(['middleware' => ['auth:sanctum']], function () {
+//     Route::get('/user', [AuthController::class, 'user']);
+//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+//     Route::resource('toDos' , ToDoController::class);
+//     Route::resource('toDoDetails' , ToDoDetailController::class);
+// });
+
+Route::get('/user', [AuthController::class, 'user']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::resource('toDos' , ToDoController::class);
+Route::resource('toDoDetails' , ToDoDetailController::class);
