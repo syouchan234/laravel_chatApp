@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
 
     //返信コメントの紐づけ
-    public function comment(){
+    public function comments(){
         return $this->hasMany(Comment::class);
     }
     

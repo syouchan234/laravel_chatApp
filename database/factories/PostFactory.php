@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 use App\Models\Post;
+use App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -13,7 +14,7 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
-            'account_id' => \App\Models\Account::factory()->create()->id,
+            'account_id' => Account::factory()->create()->id,
         ];
     }
 }

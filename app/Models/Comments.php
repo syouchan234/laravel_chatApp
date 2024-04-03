@@ -9,6 +9,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    // このメソッドは、Comment モデルが Post モデルに属する関係を定義します。
+    // つまり、1つのコメントは特定の投稿に属します。
     public function post(){
         return $this->belongsTo(Post::class);
     }
