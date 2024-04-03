@@ -16,9 +16,9 @@ return new class extends Migration
             // IDカラムを作成する（Primary Key）
             $table->id();
             // ユーザーのIDを格納するカラム（外部キー）
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('account_id');
             // usersテーブルのidカラムを参照する
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             // 投稿のタイトルを格納するカラム
             $table->string('title');
             // 投稿の内容を格納するカラム
