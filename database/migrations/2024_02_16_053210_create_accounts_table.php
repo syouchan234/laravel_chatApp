@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -7,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // accountsテーブルを作成する
+        // accounts テーブルを作成する
         Schema::create('accounts', function (Blueprint $table) {
             // IDカラムを作成する（Primary Key）
             $table->id();
@@ -30,7 +31,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        // accountsテーブルが存在する場合は削除する
+        // accounts テーブルが存在する場合は削除する
         Schema::dropIfExists('accounts');
     }
 };

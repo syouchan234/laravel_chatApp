@@ -11,7 +11,7 @@ class Post extends Model
 
     //返信コメントの紐づけ
     public function comments(){
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comments::class);
     }
     
     public function delete(){
