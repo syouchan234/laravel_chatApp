@@ -18,11 +18,11 @@ return new class extends Migration
             // 投稿への返信の場合、親コメントのIDを格納するカラム（任意、NULL許容）
             $table->unsignedBigInteger('parent_id')->nullable();
             // ユーザーのIDを格納するカラム（外部キー）
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('account_id');
             // usersテーブルのidカラムを参照する
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             // 投稿への返信の場合、commentsテーブルのidカラムを参照する
-            $table->foreign('parent_id')->references('id')->on('comments')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('comments')->onDelete('set null');
             // 投稿のIDを格納するカラム（外部キー）
             $table->unsignedBigInteger('post_id');
             // postsテーブルのidカラムを参照する
