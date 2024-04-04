@@ -10,10 +10,8 @@ class PostsController extends Controller
 {
     //投稿一覧を取得する処理
     public function index(){
-        //コメントと一緒に投稿を取得する
-        // $postList = Post::with('comments')->get();
-        // 一時的にpostのみに適用※コメントに不具合
-        $postList = Post::get();
+        //コメントと一緒に投稿を取得する最新３０件
+        $postList = Post::with('comments')->latest()->take(30)->get();
         //取得情報を返却する
         return $postList;
     }
