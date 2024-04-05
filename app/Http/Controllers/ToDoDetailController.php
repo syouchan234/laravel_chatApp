@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * このコードはサンプルコードです
+ * 他の実装が終わり次第削除します。
+ */
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ToDoDetail\StoreRequest;
