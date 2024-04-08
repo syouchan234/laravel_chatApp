@@ -53,15 +53,19 @@ class AuthController extends Controller
      */
     public function createUser(CreateUserRequest $request)
     {
-        Account::create([
+        $user = Account::create([
             'name' => $request->name,
             'account_name' => $request->account_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $token = Auth::user()->createToken('AccessToken')->plainTextToken;
+    
+        // ユーザーが作成された後にトークンを生成
+        $token = $user->createToken('AccessToken')->plainTextToken;
+    
         // トークンをCookieに保存
         $cookie = Cookie::make('token', $token, 60 * 24 * 30, '/', null, false, true); // 有効期限30日、secure属性有効、HTTP only
+    
         return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201)->withCookie($cookie);
     }
 
