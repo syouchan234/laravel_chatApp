@@ -12,7 +12,6 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
             'account_id' => Account::factory()->create()->id,
         ];

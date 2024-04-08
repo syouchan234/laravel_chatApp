@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,8 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             // usersテーブルのidカラムを参照する
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
-            // 投稿のタイトルを格納するカラム
-            $table->string('title');
             // 投稿の内容を格納するカラム
             $table->text('content');
             // レコードの作成日時と更新日時を管理するためのタイムスタンプカラム
@@ -36,4 +34,4 @@ return new class extends Migration
         // postsテーブルが存在する場合は削除する
         Schema::dropIfExists('posts');
     }
-};
+}

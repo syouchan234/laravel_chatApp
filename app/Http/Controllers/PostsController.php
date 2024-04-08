@@ -21,7 +21,7 @@ class PostsController extends Controller
         //新規のpostモデルを作成する
         $post = new Post();
         //各情報をモデルに設定する
-        $post->title = $request->get('title','content','account_id');
+        $post->content = $request->get('content','account_id');
         //DBに登録する
         $post->save();
     }
