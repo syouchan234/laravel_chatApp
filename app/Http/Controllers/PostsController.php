@@ -31,16 +31,19 @@ class PostsController extends Controller
         return $postList;
     }
 
-    //投稿する処理
     public function store(StoreRequest $request)
     {
-        //新規のpostモデルを作成する
+        // 新規のpostモデルを作成する
         $post = new Post();
-        //各情報をモデルに設定する
-        $account_id = auth()->id();
-        $post->content = $request->get('content',$account_id);
-        
-        //DBに登録する
+
+        // 各情報をモデルに設定する
+        $post->content = $request->input('content'); // 投稿内容を設定
+        $post->account_id = $request->input('account_id'); // アカウントIDを設定
+
+        // DBに登録する
         $post->save();
+
+        // 成功時のレスポンスを返す
+        return response()->json(['message' => '投稿が作成されました', 'post' => $post], 201);
     }
 }
