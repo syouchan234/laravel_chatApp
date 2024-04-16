@@ -22,8 +22,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             // パスワードを格納するカラム
             $table->string('password');
-            // ログイン状態を保持するためのトークンを格納するカラム
-            $table->rememberToken();
             // レコードの作成日時と更新日時を管理するためのタイムスタンプカラム
             $table->timestamps();
         });
