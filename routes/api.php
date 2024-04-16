@@ -6,10 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfilesController;
 
-// ログインAPI
-Route::post('login', [AuthController::class, 'login'])->name('login');
-// アカウント作成API
-Route::post('createUser', [AuthController::class, 'createUser']);
+// CSRFトークンの検証を追加する
+Route::middleware('web')->group(function () {
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('createUser', [AuthController::class, 'createUser']);
+});
 // ログイン中でないと操作できないAPI
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // 名前とメールアドレスを返却するAPI
