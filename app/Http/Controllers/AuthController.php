@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 
 use App\Http\Requests\Auth\CreateUserRequest;
-use App\Http\Requests\Auth\UpdateUserRequest;
+// use App\Http\Requests\Auth\UpdateUserRequest;
 use App\Models\Account;
 
 class AuthController extends Controller
@@ -20,14 +20,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $token = Auth::user()->createToken('AccessToken')->plainTextToken;
+            $user = Auth::user(); // ログインユーザーを取得
+            $token = $user->createToken('AccessToken')->plainTextToken;
+            
             // トークンをCookieに保存
             $cookie = Cookie::make('token', $token, 60 * 24 * 30, '/', null, false, true); // 有効期限30日、secure属性有効、HTTP only
-            return response()->json(['token' => $token])->withCookie($cookie);
+            
+            // ログインユーザーの情報とトークンを返す
+            return response()->json(['token' => $token, 'user' => $user])->withCookie($cookie);
         } else {
             return response()->json(['error' => '認証に失敗しました。'], 401);
         }
     }
+    
     public function user(Request $request){
         return response()->json(
             [
@@ -72,12 +77,12 @@ class AuthController extends Controller
     /**
      * ユーザー情報更新用API関数
      */
-    public function updateUser(UpdateUserRequest $request){
-        $user = $request->user();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
+    // public function updateUser(UpdateUserRequest $request){
+    //     $user = $request->user();
+    //     $user->name = $request->name;
+    //     $user->email = $request->email;
+    //     $user->save();
 
-        return response()->json(['message' => 'ユーザー情報を更新しました。']);
-    }
+    //     return response()->json(['message' => 'ユーザー情報を更新しました。']);
+    // }
 }
