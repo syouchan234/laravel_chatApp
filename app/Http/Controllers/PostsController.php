@@ -38,8 +38,7 @@ class PostsController extends Controller
 
         // 各情報をモデルに設定する
         $post->content = $request->input('content'); // 投稿内容を設定
-        $post->account_id = $request->input('account_id'); // アカウントIDを設定
-
+        $post->account_id = auth()->id(); // ログインユーザーのアカウントIDを設定
         // DBに登録する
         $post->save();
 
