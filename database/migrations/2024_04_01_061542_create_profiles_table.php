@@ -23,7 +23,7 @@ return new class extends Migration
             // ユーザーの誕生日を格納するカラム（任意、NULL許容）
             $table->date('birthday')->nullable();
             // ユーザーの自己紹介文を格納するカラム（任意、NULL許容）
-            $table->text('bio')->nullable();
+            $table->text('introduction')->nullable();
             // レコードの作成日時と更新日時を管理するためのタイムスタンプカラム
             $table->timestamps();
         });
