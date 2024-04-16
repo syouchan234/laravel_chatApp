@@ -18,8 +18,8 @@ class PostsController extends Controller
         $postList = $noFormattedPosts->map(function ($post) {
             return [
                 'id' => $post->id,
+                'account_id' => $post->account->id,
                 'account_name' => $post->account->name, // アカウントの名前を取得
-                'title' => $post->title,
                 'content' => $post->content,
                 'created_at' => $post->created_at,
                 'updated_at' => $post->updated_at,
@@ -37,12 +37,10 @@ class PostsController extends Controller
         //新規のpostモデルを作成する
         $post = new Post();
         //各情報をモデルに設定する
-        $post->content = $request->input('content');
-        $post->account_id = $request->input('account_id');
+        $account_id = auth()->id();
+        $post->content = $request->get('content',$account_id);
+        
         //DBに登録する
         $post->save();
-
-        //保存が完了したら適切なレスポンスを返す
-        return response()->json(['message' => '投稿が完了しました。'], 201);
     }
 }
