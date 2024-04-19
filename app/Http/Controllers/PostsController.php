@@ -19,11 +19,11 @@ class PostsController extends Controller
             return [
                 'id' => $post->id,
                 'account_id' => $post->account->id,
-                'account_name' => $post->account->name, // アカウントの名前を取得
+                'account_name' => $post->account->name,
                 'content' => $post->content,
                 'created_at' => $post->created_at,
                 'updated_at' => $post->updated_at,
-                'comments' => $post->comments // ここでコメントも取得する必要があれば加工する
+                'comments' => $post->comments
             ];
         });
 
