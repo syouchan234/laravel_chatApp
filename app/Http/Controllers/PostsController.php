@@ -8,27 +8,35 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
-    //投稿一覧を取得する処理
     public function index()
     {
-        // 最新の投稿一覧を取得し、関連するアカウント情報も取得する
-        $noFormattedPosts = Post::with(['account', 'comments'])->latest()->take(30)->get();
+        // 最新の投稿一覧を取得し、関連するコメントも一緒に取得する
+        $posts = Post::with(['comments', 'comments.account'])->latest()->take(30)->get();
 
-        // 必要な情報だけを返すように整形
-        $postList = $noFormattedPosts->map(function ($post) {
+        // 必要な情報だけを整形して返す
+        $formattedPosts = $posts->map(function ($post) {
             return [
                 'id' => $post->id,
-                'account_id' => $post->account->id,
-                'account_name' => $post->account->name,
                 'content' => $post->content,
+                'account_id' => $post->account->id,
+                'account_name' => $post->account->account_name,
                 'created_at' => $post->created_at,
                 'updated_at' => $post->updated_at,
-                'comments' => $post->comments
+                'comments' => $post->comments->map(function ($comment) {
+                    return [
+                        'id' => $comment->id,
+                        'content' => $comment->content,
+                        'account_id' => $comment->account_id,
+                        'account_name' => $comment->account->account_name, // コメントに関連するアカウント名を取得
+                        'created_at' => $comment->created_at,
+                        'updated_at' => $comment->updated_at,
+                    ];
+                }),
             ];
         });
 
         // 取得した投稿一覧を返す
-        return $postList;
+        return response()->json($formattedPosts);
     }
 
     public function store(StoreRequest $request)

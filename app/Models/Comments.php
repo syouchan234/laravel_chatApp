@@ -14,4 +14,10 @@ class Comments extends Model
     public function post(){
         return $this->belongsTo(Post::class);
     }
+
+    // Post モデルに属するアカウント情報を取得
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
 }

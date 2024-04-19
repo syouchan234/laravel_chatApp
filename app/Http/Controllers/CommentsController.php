@@ -9,6 +9,27 @@ use App\Models\Comments;
 
 class CommentsController extends Controller
 {
+    public function index()
+    {
+        // コメント一覧を取得し、関連するアカウント情報も一括で取得する
+        $comments = Comments::with('account')->get();
+
+        // 必要な情報だけを整形して返す
+        $commentList = $comments->map(function ($comment) {
+            return [
+                'id' => $comment->id,
+                'content' => $comment->content,
+                'account_id' => $comment->account_id,
+                'account_name' => $comment->account->name, // アカウント名を取得
+                'created_at' => $comment->created_at,
+                'updated_at' => $comment->updated_at,
+            ];
+        });
+
+        // 取得したコメント一覧を返す
+        return response()->json($commentList);
+    }
+    
     public function store(StoreRequest $request)
     {
         // リクエストから投稿IDを取得
