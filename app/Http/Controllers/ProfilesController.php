@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Post;
+use App\Models\Profiles;
 use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
 {
+    // 自分のアカウントの情報を取得
     public function getProfile(Request $request)
     {
         $user = $request->user(); // ログイン中のユーザー情報を取得
+        $posts = Post::where('account_id', $user->id)->get();
+
         $profile = $user->profile ?? null;
         
         return response()->json([
@@ -22,9 +26,34 @@ class ProfilesController extends Controller
             'place' => $profile ? $profile->place : null,
             'birthday' => $profile ? $profile->birthday : null,
             'introduction' => $profile ? $profile->introduction : null,
+            'posts' => $posts
         ]);
     }
 
+    // 自分のアカウントの情報を更新
+    public function updateProfile(Request $request){
+        $user = $request->user(); // ログイン中のユーザー情報を取得
+
+        // ユーザーのプロフィールを取得または新規作成
+        $profile = $user->profile ?? new Profiles();
+    
+        // ユーザーのアカウント情報を更新
+        $user->account_name = $request->input('account_name');
+        $user->save();
+    
+        // プロフィール情報を更新
+        $profile->gender = $request->input('gender');
+        $profile->place = $request->input('place');
+        $profile->birthday = $request->input('birthday');
+        $profile->introduction = $request->input('introduction');
+    
+        // ユーザーとプロフィールを関連付ける
+        $user->profile()->save($profile);
+    
+        return response()->json(['message' => 'プロフィールが更新されました']);
+    }
+
+    // 他人のアカウントの情報を取得
     public function getExternalProfile($accountId)
     {
         $account = Account::findOrFail($accountId); // 外部アカウントからのアカウントIDでアカウント情報を取得

@@ -9,11 +9,10 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'account_id' => 'required|exists:accounts,id', // ユーザーIDは必須で、accountsテーブルのidに存在することを確認
-            'gender' => 'required|string',
-            'place' => 'required|string|max:100',
-            'birthday' => 'required|date',
-            'introduction' => 'required|string|max:300'
+            'gender' => 'string',
+            'place' => 'string|max:100',
+            'birthday' => 'nullable|string',
+            'introduction' => 'string|max:300'
         ];
     }
 }

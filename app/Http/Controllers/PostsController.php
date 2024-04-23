@@ -10,8 +10,10 @@ class PostsController extends Controller
 {
     public function index()
     {
-        // 最新の投稿一覧を取得し、関連するコメントも一緒に取得する
-        $posts = Post::with(['comments', 'comments.account'])->latest()->take(30)->get();
+        // 最新の投稿一覧を取得し、関連するアカウント情報とコメントを取得する
+        $posts = Post::with(['account', 'comments' => function ($query) {
+            $query->take(10); // コメントを最大10件まで取得する
+        }])->latest()->take(30)->get();
 
         // 必要な情報だけを整形して返す
         $formattedPosts = $posts->map(function ($post) {

@@ -73,16 +73,4 @@ class AuthController extends Controller
     
         return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201)->withCookie($cookie);
     }
-
-    /**
-     * ユーザー情報更新用API関数
-     */
-    // public function updateUser(UpdateUserRequest $request){
-    //     $user = $request->user();
-    //     $user->name = $request->name;
-    //     $user->email = $request->email;
-    //     $user->save();
-
-    //     return response()->json(['message' => 'ユーザー情報を更新しました。']);
-    // }
 }
