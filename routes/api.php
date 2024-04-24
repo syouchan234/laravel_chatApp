@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfilesController;
 
@@ -16,6 +17,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     // 投稿関連
     Route::resource('post', PostsController::class);
+    // コメント
+    Route::resource('comments', CommentsController::class);
     // 自分のユーザー情報取得API
     Route::get('profile', [ProfilesController::class, 'getProfile']);
     // 外部アカウントからの情報取得API

@@ -20,7 +20,7 @@ class CommentsController extends Controller
                 'id' => $comment->id,
                 'content' => $comment->content,
                 'account_id' => $comment->account_id,
-                'account_name' => $comment->account->name, // アカウント名を取得
+                'account_name' => $comment->account->name,
                 'created_at' => $comment->created_at,
                 'updated_at' => $comment->updated_at,
             ];
@@ -46,6 +46,6 @@ class CommentsController extends Controller
         $comment->save();
 
         // 投稿が成功した場合、新しいコメント情報を含むレスポンスを返す
-        return response()->json(['message' => 'コメントが投稿されました', 'comment' => $comment], 201);
+        return response()->json(['message' => 'コメントが投稿されました'], 201);
     }
 }
