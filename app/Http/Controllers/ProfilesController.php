@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\Profile\SaveRequest;
 use App\Models\Account;
 use App\Models\Post;
 use App\Models\Profiles;
@@ -31,7 +33,7 @@ class ProfilesController extends Controller
     }
 
     // 自分のアカウントの情報を更新
-    public function updateProfile(Request $request){
+    public function updateProfile(SaveRequest $request){
         $user = $request->user(); // ログイン中のユーザー情報を取得
 
         // ユーザーのプロフィールを取得または新規作成
@@ -50,7 +52,7 @@ class ProfilesController extends Controller
         // ユーザーとプロフィールを関連付ける
         $user->profile()->save($profile);
     
-        return response()->json(['message' => 'プロフィールが更新されました']);
+        return response()->json(['message' => 'success']);
     }
 
     // 他人のアカウントの情報を取得

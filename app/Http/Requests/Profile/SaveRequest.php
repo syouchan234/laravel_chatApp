@@ -9,10 +9,11 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gender' => 'string',
-            'place' => 'string|max:100',
+            'account_name' => 'required|string|max:30',
+            'gender' => 'nullable|string',
+            'place' => 'nullable|string|max:100',
             'birthday' => 'nullable|string',
-            'introduction' => 'string|max:300'
+            'introduction' => 'nullable|string|max:300'
         ];
     }
 }

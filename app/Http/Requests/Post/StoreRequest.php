@@ -11,7 +11,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'content' => 'required|string|max:500',
-            'account_id' => 'required|exists:accounts,id'
         ];
     }
 }
