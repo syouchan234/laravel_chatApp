@@ -19,6 +19,7 @@ class ProfilesController extends Controller
         $profile = $user->profile ?? null;
         
         return response()->json([
+            'isOwnProfile' => true,// 自身のプロフかどうかが分かる値
             'name' => $user->name,
             'account_name' => $user->account_name,
             'email' => $user->email,
@@ -63,6 +64,7 @@ class ProfilesController extends Controller
         $profile = $account->profile ?? null;
 
         return response()->json([
+            'isOwnProfile' => false,// 自身のプロフかどうかが分かる値
             'account_name' => $account->account_name,
             'created_at' => $account->created_at,
             'updated_at' => $profile? $profile->updated_at : $account->created_at,
