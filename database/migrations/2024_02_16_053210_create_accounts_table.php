@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('password');
             // レコードの作成日時と更新日時を管理するためのタイムスタンプカラム
             $table->timestamps();
+            // 論理削除用のカラム
+            $table->softDeletes();
         });
     }
 

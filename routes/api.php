@@ -15,12 +15,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('user', [AuthController::class, 'user']);
     // ログアウトAPI
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    // ユーザーの削除API
+    Route::delete('deleteUser', [ProfilesController::class, 'deleteUser']);
     // 投稿関連
     Route::resource('post', PostsController::class);
     // コメント
     Route::resource('comments', CommentsController::class);
     // 自分のユーザー情報取得API
     Route::get('profile', [ProfilesController::class, 'getProfile']);
+    // 自分のユーザー情報の更新API
+    Route::post('profile', [ProfilesController::class, 'updateProfile']);
     // 外部アカウントからの情報取得API
     Route::get('profile/{accountId}', [ProfilesController::class, 'getExternalProfile']);
 });

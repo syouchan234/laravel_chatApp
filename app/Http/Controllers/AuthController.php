@@ -73,4 +73,21 @@ class AuthController extends Controller
     
         return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201)->withCookie($cookie);
     }
+
+    public function deleteUser(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'ユーザーが見つかりません'], 404);
+        }
+
+        // ユーザーを削除
+        $user->delete();
+
+        // ユーザーが削除されたらログアウトする（トークンを無効化する）
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'アカウントを削除しました'], 200);
+    }
 }
