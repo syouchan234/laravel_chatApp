@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * 投稿に関連するコメントを管理するテーブル
+     * 投稿が削除される又はアカウントが削除された場合は関連するコメントが削除される。
      */
     public function up(): void
     {
@@ -29,17 +30,17 @@ return new class extends Migration
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             // コメントの内容を格納するカラム
             $table->text('content');
+            // 論理削除を判定するカラム
+            $table->softDeletes();
             // レコードの作成日時と更新日時を管理するためのタイムスタンプカラム
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         // commentsテーブルが存在する場合は削除する
-        Schema::dropIfExists('comments');
+        Schema::table('comments', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 };

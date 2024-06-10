@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // ログアウトAPI
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     // ユーザーの削除API
-    Route::delete('deleteUser', [ProfilesController::class, 'deleteUser']);
+    Route::delete('deleteUser', [AuthController::class, 'deleteUser']);
     // 投稿関連
     Route::resource('post', PostsController::class);
     // コメント

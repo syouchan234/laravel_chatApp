@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\Auth\CreateUserRequest;
 // use App\Http\Requests\Auth\UpdateUserRequest;
 use App\Models\Account;
+use App\Models\Comments;
+use App\Models\Post;
 
 class AuthController extends Controller
 {
@@ -74,15 +76,28 @@ class AuthController extends Controller
         return response()->json(['token' => $token, 'message' => 'アカウントを作成しました'], 201)->withCookie($cookie);
     }
 
+    // ユーザーのアカウントと関連する投稿およびコメントを論理削除
     public function deleteUser(Request $request)
     {
-        $user = $request->user();
+        $user = $request->user(); // ログイン中のユーザー情報を取得
 
         if (!$user) {
             return response()->json(['error' => 'ユーザーが見つかりません'], 404);
         }
 
-        // ユーザーを削除
+        // ユーザーが投稿した全てのコメント（リプライ）を取得し、論理削除
+        $comments = Comments::where('account_id', $user->id)->get();
+        foreach ($comments as $comment) {
+            $comment->delete();
+        }
+
+        // ユーザーの投稿を取得し、論理削除
+        $posts = Post::where('account_id', $user->id)->get();
+        foreach ($posts as $post) {
+            $post->delete();
+        }
+
+        // ユーザーを論理削除
         $user->delete();
 
         // ユーザーが削除されたらログアウトする（トークンを無効化する）
