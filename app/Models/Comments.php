@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comments extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;  // SoftDeletes トレイトを追加
 
-    // このメソッドは、Comment モデルが Post モデルに属する関係を定義します。
-    // つまり、1つのコメントは特定の投稿に属します。
-    public function post(){
+    // リレーションシップ: 投稿
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
 
-    // Post モデルに属するアカウント情報を取得
+    // リレーションシップ: アカウント
     public function account()
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(Account::class);
     }
 }

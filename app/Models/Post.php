@@ -4,29 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;  // SoftDeletes トレイトを追加
 
-    //返信コメントの紐づけ
+    // リレーションシップ: コメント
     public function comments()
     {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comments::class);  // Comments ではなく Comment が正しい
     }
 
-    // アカウントとのリレーションを定義
+    // リレーションシップ: アカウント
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
-    }
-
-    public function delete()
-    {
-        //投稿に関連するCommentsの削除
-        $this->comments()->delete();
-
-        //投稿の削除
-        return parent::delete();
     }
 }
