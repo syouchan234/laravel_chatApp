@@ -52,20 +52,31 @@ class ProfilesController extends Controller
     // 他人のアカウントの情報を取得
     public function getExternalProfile($accountId)
     {
-        $account = Account::findOrFail($accountId); // 外部アカウントからのアカウントIDでアカウント情報を取得
-        $posts = Post::where('account_id', $accountId)->get(); // 外部アカウントからのユーザーが投稿した全ての投稿データを取得
-        $profile = $account->profile ?? null;
-        return response()->json([
-            'isOwnProfile' => false,
-            'account_name' => $account->account_name,
-            'created_at' => $account->created_at,
-            'updated_at' => $profile? $profile->updated_at : $account->created_at,
-            'gender' => $profile ? $profile->gender : null,
-            'place' => $profile ? $profile->place : null,
-            'birthday' => $profile ? $profile->birthday : null,
-            'introduction' => $profile ? $profile->introduction : null,
-            'posts' => $posts
-        ]);
+    // 論理削除されたアカウントを含めて検索
+    $account = Account::withTrashed()->findOrFail($accountId);
+    
+    // アカウントが論理削除されている場合はnullを返す
+    if ($account->deleted_at !== null) {
+        return response()->json(['error' => 'アカウントが存在しません'], 404);
+    }
+
+    // 外部アカウントからのユーザーが投稿した全ての投稿データを取得
+    $posts = Post::where('account_id', $accountId)->get();
+
+    // プロフィールを取得
+    $profile = $account->profile;
+
+    return response()->json([
+        'isOwnProfile' => false,
+        'account_name' => $account->account_name,
+        'created_at' => $account->created_at,
+        'updated_at' => $profile ? $profile->updated_at : $account->created_at,
+        'gender' => $profile ? $profile->gender : null,
+        'place' => $profile ? $profile->place : null,
+        'birthday' => $profile ? $profile->birthday : null,
+        'introduction' => $profile ? $profile->introduction : null,
+        'posts' => $posts
+    ]);
     }
 
     // ユーザーのアカウントと関連する投稿を論理削除
