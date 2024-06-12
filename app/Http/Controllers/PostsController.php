@@ -10,10 +10,6 @@ class PostsController extends Controller
 {
     public function index()
     {
-        // // 最新の投稿一覧を取得し、関連するアカウント情報とコメントを取得する
-        // $posts = Post::with(['account', 'comments' => function ($query) {
-        //     $query->take(10); // コメントを最大10件まで取得する
-        // }])->latest()->take(30)->get();
         // 最新の投稿一覧を取得し、関連するアカウント情報とコメントを取得する
         // 論理削除された投稿およびコメントを除外する
         $posts = Post::with(['account', 'comments' => function ($query) {
