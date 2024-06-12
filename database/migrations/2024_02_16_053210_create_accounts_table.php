@@ -34,9 +34,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        // accounts テーブルが存在する場合は削除する
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('accounts');
     }
 };
